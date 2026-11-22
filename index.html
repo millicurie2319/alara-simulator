@@ -182,11 +182,11 @@
       <div>
         <div style="font-size: 0.78rem; color: var(--muted); font-weight: 600;">QUICK CLINICAL PRESETS:</div>
         <div class="presets">
-          <button class="btn-preset" onclick="applyPreset('unshielded')">Unshielded Baseline</button>
-          <button class="btn-preset" onclick="applyPreset('tcSyringe')">Tc-99m Syringe Shield</button>
-          <button class="btn-preset" onclick="applyPreset('petLblock')">F-18 PET L-Block</button>
-          <button class="btn-preset" onclick="applyPreset('y90Plastic')">Y-90 Acrylic Shield</button>
-          <button class="btn-preset" onclick="applyPreset('y90Lead')">Y-90 Lead (Brems!)</button>
+          <button type="button" class="btn-preset" onclick="applyPreset('unshielded')">Unshielded Baseline</button>
+          <button type="button" class="btn-preset" onclick="applyPreset('tcSyringe')">Tc-99m Syringe Shield</button>
+          <button type="button" class="btn-preset" onclick="applyPreset('petLblock')">F-18 PET L-Block</button>
+          <button type="button" class="btn-preset" onclick="applyPreset('y90Plastic')">Y-90 Acrylic Shield</button>
+          <button type="button" class="btn-preset" onclick="applyPreset('y90Lead')">Y-90 Lead (Brems!)</button>
         </div>
       </div>
     </div>
@@ -204,8 +204,7 @@
           <text id="distLabelSvg" x="200" y="214" fill="#38bdf8" font-size="12" text-anchor="middle" font-family="monospace">12 in (1.00 ft)</text>
 
           <!-- Unattenuated Beam (Source to Shield) -->
-          <polygon id="beamPre" points="80,115 170,85 170,145" fill="rgba(245, 158, 11, 0.35)" />
+          <polygon id="beamPre" points="80,115 165,85 165,145" fill="rgba(245, 158, 11, 0.35)" />
           <!-- Attenuated Beam (Shield to Detector) -->
-          <polygon id="beamPost" points="170,85 320,55 320,175 170,145" fill="rgba(245, 158, 11, 0.25)" />
+          <polygon id="beamPost" points="165,85 320,60 320,170 165,145" fill="rgba(245, 158, 11, 0.25)" />
 
-          <!-- Radioactive Source (Left) -->
