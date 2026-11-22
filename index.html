@@ -3,90 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ALARA Radiation Safety Simulator | Time, Distance & Shielding</title>
+  <title>ALARA Radiation Safety Simulator</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --panel: #1e293b;
-      --panel-alt: #0b1120;
-      --border: #334155;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --warn: #f59e0b;
-      --danger: #ef4444;
-      --safe: #10b981;
+      --bg: #0f172a; --panel: #1e293b; --panel-alt: #0b1120; --border: #334155;
+      --text: #f8fafc; --muted: #94a3b8; --accent: #38bdf8; --warn: #f59e0b; --danger: #ef4444; --safe: #10b981;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 20px; line-height: 1.5; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 18px; line-height: 1.45; }
     .container { max-width: 1120px; margin: 0 auto; }
-
-    header {
-      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-      border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 20px; gap: 10px;
-    }
-    header h1 { font-size: 1.45rem; color: var(--accent); display: flex; align-items: center; gap: 8px; }
-    header p { color: var(--muted); font-size: 0.9rem; }
-
-    .grid { display: grid; grid-template-columns: 360px 1fr; gap: 20px; }
+    header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 18px; gap: 10px; }
+    header h1 { font-size: 1.4rem; color: var(--accent); }
+    header p { color: var(--muted); font-size: 0.88rem; }
+    .grid { display: grid; grid-template-columns: 350px 1fr; gap: 18px; }
     @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
-
-    .card {
-      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px;
-    }
-    .card h2 {
-      font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
-      margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px;
-    }
-
-    .control-group { margin-bottom: 16px; }
-    .control-header { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; font-weight: 600; }
-    .control-header span.val { color: var(--accent); font-family: ui-monospace, SFMono-Regular, monospace; }
-
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .card h2 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .control-group { margin-bottom: 14px; }
+    .control-header { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 5px; font-weight: 600; }
+    .control-header span.val { color: var(--accent); font-family: monospace; }
     select, input[type="range"] { width: 100%; }
-    select {
-      background: var(--panel-alt); color: var(--text); border: 1px solid var(--border);
-      padding: 9px 10px; border-radius: 8px; font-size: 0.92rem; cursor: pointer;
-    }
+    select { background: var(--panel-alt); color: var(--text); border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; }
     input[type="range"] { accent-color: var(--accent); cursor: pointer; }
-
-    .sub-readout { font-size: 0.78rem; color: var(--muted); margin-top: 4px; display: flex; justify-content: space-between; }
-
-    .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-    .btn-preset {
-      background: var(--panel-alt); border: 1px solid var(--border); color: var(--text);
-      padding: 6px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; transition: 0.15s;
-    }
+    .sub-readout { font-size: 0.76rem; color: var(--muted); margin-top: 3px; display: flex; justify-content: space-between; }
+    .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .btn-preset { background: var(--panel-alt); border: 1px solid var(--border); color: var(--text); padding: 5px 9px; border-radius: 6px; font-size: 0.76rem; cursor: pointer; }
     .btn-preset:hover { border-color: var(--accent); color: var(--accent); }
-
-    .stage-box {
-      background: var(--panel-alt); border: 1px solid var(--border); border-radius: 10px;
-      padding: 16px; margin-bottom: 18px; position: relative; overflow: hidden;
-    }
-    svg#benchSvg { width: 100%; height: 220px; display: block; }
-
-    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .stage-box { background: var(--panel-alt); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 16px; }
+    svg#benchSvg { width: 100%; height: 215px; display: block; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
     @media (max-width: 600px) { .metrics { grid-template-columns: 1fr; } }
-    .metric {
-      background: var(--panel-alt); border: 1px solid var(--border); border-radius: 10px; padding: 14px;
-    }
-    .metric-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-    .metric-value { font-size: 1.55rem; font-weight: 700; font-family: ui-monospace, monospace; margin: 4px 0; }
-    .metric-sub { font-size: 0.78rem; color: var(--muted); }
-
-    .alert-box {
-      background: rgba(245, 158, 11, 0.12); border-left: 4px solid var(--warn);
-      padding: 12px 14px; border-radius: 6px; font-size: 0.86rem; color: #fde68a; margin-bottom: 14px;
-    }
-    .alert-box.info {
-      background: rgba(56, 189, 248, 0.1); border-left-color: var(--accent); color: #bae6fd;
-    }
-
-    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85rem; }
+    .metric { background: var(--panel-alt); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+    .metric-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .metric-value { font-size: 1.5rem; font-weight: 700; font-family: monospace; margin: 4px 0; }
+    .metric-sub { font-size: 0.76rem; color: var(--muted); }
+    .alert-box { background: rgba(245, 158, 11, 0.12); border-left: 4px solid var(--warn); padding: 10px 12px; border-radius: 6px; font-size: 0.84rem; color: #fde68a; margin-bottom: 12px; }
+    .alert-box.info { background: rgba(56, 189, 248, 0.1); border-left-color: var(--accent); color: #bae6fd; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.83rem; }
     @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
-    .info-tile { background: var(--panel-alt); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
-    .info-tile strong { color: var(--accent); display: block; margin-bottom: 4px; }
+    .info-tile { background: var(--panel-alt); border: 1px solid var(--border); border-radius: 8px; padding: 10px; }
+    .info-tile strong { color: var(--accent); display: block; margin-bottom: 3px; }
   </style>
 </head>
 <body>
@@ -96,21 +52,15 @@
       <h1>☢️ ALARA Hot-Lab Simulator</h1>
       <p>Interactive Time, Distance & Shielding Model for Nuclear Medicine</p>
     </div>
-    <div style="font-size: 0.82rem; color: var(--muted); text-align: right;">
-      Clinical Units: <strong>mCi</strong> • <strong>mR/hr</strong> • <strong>in / ft</strong>
-    </div>
+    <div style="font-size: 0.8rem; color: var(--muted);">Units: <strong>mCi</strong> • <strong>mR/hr</strong> • <strong>in / ft</strong></div>
   </header>
 
   <div class="grid">
-    <!-- CONTROLS PANEL -->
     <div class="card">
       <h2>1. Source & ALARA Controls</h2>
 
       <div class="control-group">
-        <div class="control-header">
-          <label for="isotopeSelect">Radionuclide</label>
-          <span class="val" id="isoEnergyBadge">140 keV γ</span>
-        </div>
+        <div class="control-header"><label for="isotopeSelect">Radionuclide</label><span class="val" id="isoEnergyBadge">140 keV γ</span></div>
         <select id="isotopeSelect" onchange="updateSim()">
           <option value="Tc99m">Tc-99m (Technetium-99m — 140 keV γ)</option>
           <option value="I123">I-123 (Iodine-123 — 159 keV γ)</option>
@@ -121,35 +71,23 @@
           <option value="Ga68">Ga-68 (Gallium-68 — 511 keV PET γ±)</option>
           <option value="Y90">Y-90 (Yttrium-90 — 2.28 MeV Pure β⁻)</option>
         </select>
-        <div class="sub-readout">
-          <span id="halfLifeText">T½: 6.01 hrs</span>
-          <span id="gammaText">Γ: 0.78 R·cm²/mCi·hr</span>
-        </div>
+        <div class="sub-readout"><span id="halfLifeText">T½: 6.01 hrs</span><span id="gammaText">Γ: 0.78 R·cm²/mCi·hr</span></div>
       </div>
 
       <div class="control-group">
-        <div class="control-header">
-          <label for="activitySlider">Source Activity</label>
-          <span class="val" id="activityVal">25.0 mCi</span>
-        </div>
-        <input type="range" id="activitySlider" min="1" max="200" step="1" value="25" oninput="updateSim()" onchange="updateSim()" />
+        <div class="control-header"><label for="activitySlider">Source Activity</label><span class="val" id="activityVal">25.0 mCi</span></div>
+        <input type="range" id="activitySlider" min="1" max="200" step="1" value="25" oninput="updateSim()" />
         <div class="sub-readout"><span>1 mCi</span><span>100 mCi</span><span>200 mCi</span></div>
       </div>
 
       <div class="control-group">
-        <div class="control-header">
-          <label for="distanceSlider">Distance (Source to Detector)</label>
-          <span class="val" id="distanceVal">12 in (1.00 ft)</span>
-        </div>
-        <input type="range" id="distanceSlider" min="3" max="120" step="1" value="12" oninput="updateSim()" onchange="updateSim()" />
+        <div class="control-header"><label for="distanceSlider">Distance (Source to Detector)</label><span class="val" id="distanceVal">12 in (1.00 ft)</span></div>
+        <input type="range" id="distanceSlider" min="3" max="120" step="1" value="12" oninput="updateSim()" />
         <div class="sub-readout"><span>3 in (0.25 ft)</span><span>60 in (5 ft)</span><span>120 in (10 ft)</span></div>
       </div>
 
       <div class="control-group">
-        <div class="control-header">
-          <label for="shieldMatSelect">Shielding Material</label>
-          <span class="val" id="hvlVal">HVL: 0.0067 in</span>
-        </div>
+        <div class="control-header"><label for="shieldMatSelect">Shielding Material</label><span class="val" id="hvlVal">HVL: 0.0067 in</span></div>
         <select id="shieldMatSelect" onchange="updateSim()">
           <option value="Lead">Lead (Pb — High Z = 82)</option>
           <option value="Tungsten">Tungsten (W — High Z = 74, Dense)</option>
@@ -160,25 +98,19 @@
       </div>
 
       <div class="control-group">
-        <div class="control-header">
-          <label for="shieldThickSlider">Shield Thickness</label>
-          <span class="val" id="shieldThickVal">0.00 in (0.0 HVLs)</span>
-        </div>
-        <input type="range" id="shieldThickSlider" min="0" max="2.0" step="0.02" value="0.00" oninput="updateSim()" onchange="updateSim()" />
+        <div class="control-header"><label for="shieldThickSlider">Shield Thickness</label><span class="val" id="shieldThickVal">0.00 in (0.0 HVLs)</span></div>
+        <input type="range" id="shieldThickSlider" min="0" max="2.0" step="0.02" value="0.00" oninput="updateSim()" />
         <div class="sub-readout"><span>0.00 in (Unshielded)</span><span>1.00 in</span><span>2.00 in</span></div>
       </div>
 
       <div class="control-group">
-        <div class="control-header">
-          <label for="timeSlider">Exposure Duration</label>
-          <span class="val" id="timeVal">5 min (0.083 hr)</span>
-        </div>
-        <input type="range" id="timeSlider" min="1" max="60" step="1" value="5" oninput="updateSim()" onchange="updateSim()" />
+        <div class="control-header"><label for="timeSlider">Exposure Duration</label><span class="val" id="timeVal">5 min (0.083 hr)</span></div>
+        <input type="range" id="timeSlider" min="1" max="60" step="1" value="5" oninput="updateSim()" />
         <div class="sub-readout"><span>1 min</span><span>30 min</span><span>60 min</span></div>
       </div>
 
       <div>
-        <div style="font-size: 0.78rem; color: var(--muted); font-weight: 600;">QUICK CLINICAL PRESETS:</div>
+        <div style="font-size: 0.76rem; color: var(--muted); font-weight: 600;">QUICK CLINICAL PRESETS:</div>
         <div class="presets">
           <button type="button" class="btn-preset" onclick="applyPreset('unshielded')">Unshielded Baseline</button>
           <button type="button" class="btn-preset" onclick="applyPreset('tcSyringe')">Tc-99m Syringe Shield</button>
@@ -189,17 +121,20 @@
       </div>
     </div>
 
-    <!-- VISUALIZATION & READOUTS PANEL -->
     <div class="card">
       <h2>2. Geometry & Real-Time Dosimetry</h2>
 
       <div class="stage-box">
-        <svg id="benchSvg" viewBox="0 0 700 220" preserveAspectRatio="xMidYMid meet">
-          <!-- Bench Surface -->
-          <rect x="20" y="175" width="660" height="10" rx="4" fill="#334155" />
-
-          <!-- Distance Ruler Line -->
-          <line id="distLine" x1="80" y1="198" x2="261" y2="198" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,3" />
-          <text id="distLabelSvg" x="170" y="214" fill="#38bdf8" font-size="12" text-anchor="middle" font-family="monospace">12 in (1.00 ft)</text>
-
-          <!-- Radiation Beams (Pre-shield & Post-shield) -->
+        <svg id="benchSvg" viewBox="0 0 700 215" preserveAspectRatio="xMidYMid meet">
+          <rect x="20" y="172" width="660" height="10" rx="4" fill="#334155" />
+          <line id="distLine" x1="80" y1="194" x2="261" y2="194" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,3" />
+          <text id="distLabelSvg" x="170" y="210" fill="#38bdf8" font-size="12" text-anchor="middle" font-family="monospace">12 in (1.00 ft)</text>
+          <polygon id="beamPre" points="80,115 164,85 164,145" fill="rgba(245, 158, 11, 0.35)" />
+          <polygon id="beamPost" points="166,85 261,60 261,170 166,145" fill="rgba(245, 158, 11, 0.32)" />
+          <circle cx="80" cy="115" r="22" fill="rgba(245, 158, 11, 0.2)" />
+          <circle cx="80" cy="115" r="13" fill="#f59e0b" stroke="#fef3c7" stroke-width="2" />
+          <text x="80" y="119" fill="#0f172a" font-size="11" font-weight="bold" text-anchor="middle">☢</text>
+          <text x="80" y="85" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">SOURCE</text>
+          <rect id="shieldRect" x="164" y="48" width="2" height="124" rx="2" fill="#64748b" stroke="#cbd5e1" stroke-width="1" />
+          <text id="shieldLabelSvg" x="165" y="38" fill="#cbd5e1" font-size="11" text-anchor="middle">No Shield</text>
+          <rect id="detBody" x="245" y="91" width="32" height="48" rx="6" fill="#0284c7" stroke="#bae6fd" stroke-width="2" />
