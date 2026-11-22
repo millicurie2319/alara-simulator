@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ALARA Radiation Safety Simulator</title>
   <style>
-    :root {
-      --bg: #0f172a; --panel: #1e293b; --panel-alt: #0b1120; --border: #334155;
-      --text: #f8fafc; --muted: #94a3b8; --accent: #38bdf8; --warn: #f59e0b; --danger: #ef4444; --safe: #10b981;
-    }
+    :root { --bg: #0f172a; --panel: #1e293b; --panel-alt: #0b1120; --border: #334155; --text: #f8fafc; --muted: #94a3b8; --accent: #38bdf8; --warn: #f59e0b; --danger: #ef4444; --safe: #10b981; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
     body { background: var(--bg); color: var(--text); padding: 18px; line-height: 1.45; }
     .container { max-width: 1120px; margin: 0 auto; }
@@ -48,17 +45,12 @@
 <body>
 <div class="container">
   <header>
-    <div>
-      <h1>☢️ ALARA Hot-Lab Simulator</h1>
-      <p>Interactive Time, Distance & Shielding Model for Nuclear Medicine</p>
-    </div>
+    <div><h1>☢️ ALARA Hot-Lab Simulator</h1><p>Interactive Time, Distance & Shielding Model for Nuclear Medicine</p></div>
     <div style="font-size: 0.8rem; color: var(--muted);">Units: <strong>mCi</strong> • <strong>mR/hr</strong> • <strong>in / ft</strong></div>
   </header>
-
   <div class="grid">
     <div class="card">
       <h2>1. Source & ALARA Controls</h2>
-
       <div class="control-group">
         <div class="control-header"><label for="isotopeSelect">Radionuclide</label><span class="val" id="isoEnergyBadge">140 keV γ</span></div>
         <select id="isotopeSelect" onchange="updateSim()">
@@ -73,19 +65,16 @@
         </select>
         <div class="sub-readout"><span id="halfLifeText">T½: 6.01 hrs</span><span id="gammaText">Γ: 0.78 R·cm²/mCi·hr</span></div>
       </div>
-
       <div class="control-group">
         <div class="control-header"><label for="activitySlider">Source Activity</label><span class="val" id="activityVal">25.0 mCi</span></div>
         <input type="range" id="activitySlider" min="1" max="200" step="1" value="25" oninput="updateSim()" />
         <div class="sub-readout"><span>1 mCi</span><span>100 mCi</span><span>200 mCi</span></div>
       </div>
-
       <div class="control-group">
         <div class="control-header"><label for="distanceSlider">Distance (Source to Detector)</label><span class="val" id="distanceVal">12 in (1.00 ft)</span></div>
         <input type="range" id="distanceSlider" min="3" max="120" step="1" value="12" oninput="updateSim()" />
         <div class="sub-readout"><span>3 in (0.25 ft)</span><span>60 in (5 ft)</span><span>120 in (10 ft)</span></div>
       </div>
-
       <div class="control-group">
         <div class="control-header"><label for="shieldMatSelect">Shielding Material</label><span class="val" id="hvlVal">HVL: 0.0067 in</span></div>
         <select id="shieldMatSelect" onchange="updateSim()">
@@ -96,19 +85,16 @@
           <option value="Plastic">Plastic / Acrylic (PMMA — Low Z)</option>
         </select>
       </div>
-
       <div class="control-group">
         <div class="control-header"><label for="shieldThickSlider">Shield Thickness</label><span class="val" id="shieldThickVal">0.00 in (0.0 HVLs)</span></div>
         <input type="range" id="shieldThickSlider" min="0" max="2.0" step="0.02" value="0.00" oninput="updateSim()" />
         <div class="sub-readout"><span>0.00 in (Unshielded)</span><span>1.00 in</span><span>2.00 in</span></div>
       </div>
-
       <div class="control-group">
         <div class="control-header"><label for="timeSlider">Exposure Duration</label><span class="val" id="timeVal">5 min (0.083 hr)</span></div>
         <input type="range" id="timeSlider" min="1" max="60" step="1" value="5" oninput="updateSim()" />
         <div class="sub-readout"><span>1 min</span><span>30 min</span><span>60 min</span></div>
       </div>
-
       <div>
         <div style="font-size: 0.76rem; color: var(--muted); font-weight: 600;">QUICK CLINICAL PRESETS:</div>
         <div class="presets">
@@ -120,10 +106,8 @@
         </div>
       </div>
     </div>
-
     <div class="card">
       <h2>2. Geometry & Real-Time Dosimetry</h2>
-
       <div class="stage-box">
         <svg id="benchSvg" viewBox="0 0 700 215" preserveAspectRatio="xMidYMid meet">
           <rect x="20" y="172" width="660" height="10" rx="4" fill="#334155" />
@@ -138,3 +122,153 @@
           <rect id="shieldRect" x="164" y="48" width="2" height="124" rx="2" fill="#64748b" stroke="#cbd5e1" stroke-width="1" />
           <text id="shieldLabelSvg" x="165" y="38" fill="#cbd5e1" font-size="11" text-anchor="middle">No Shield</text>
           <rect id="detBody" x="245" y="91" width="32" height="48" rx="6" fill="#0284c7" stroke="#bae6fd" stroke-width="2" />
+          <rect id="detScreen" x="251" y="99" width="20" height="12" rx="2" fill="#0f172a" />
+          <circle id="detLed" cx="261" cy="123" r="5" fill="#38bdf8" />
+          <text id="detLabel" x="261" y="82" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">DETECTOR</text>
+        </svg>
+      </div>
+      <div id="physicsNote" class="alert-box info">Gamma photons attenuate exponentially through shielding according to the material's Half-Value Layer (HVL).</div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Protected Exposure Rate</div><div class="metric-value" id="doseRateOut" style="color: var(--safe);">20.99 mR/hr</div><div class="metric-sub" id="unshieldedComp">Unshielded at 12 in: 20.99 mR/hr</div></div>
+        <div class="metric"><div class="metric-label">Cumulative Exposure</div><div class="metric-value" id="totalDoseOut" style="color: var(--accent);">1.75 mR</div><div class="metric-sub" id="timeSummary">Over 5 min (0.083 hr)</div></div>
+        <div class="metric"><div class="metric-label">Total ALARA Reduction</div><div class="metric-value" id="reductionOut" style="color: #a78bfa;">1.0×</div><div class="metric-sub" id="reductionPct">0.0% reduced vs. unshielded</div></div>
+      </div>
+      <div class="info-grid">
+        <div class="info-tile"><strong>Active Formula Breakdown</strong><div id="formulaBreakdown" style="color: var(--muted); font-family: monospace; font-size: 0.78rem;">Rate = (Γ × A) / d² × (0.5)^(x / HVL)</div></div>
+        <div class="info-tile"><strong>Clinical ALARA Guidance</strong><div id="clinicalGuidance" style="color: var(--muted);">Increasing distance or adding high-Z shielding rapidly cuts photon exposure.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const ISOTOPES = {
+    Tc99m: { energy: "140 keV γ", halfLife: "6.01 hrs", gamma: 0.78, isBeta: false, hvl: { Lead: 0.0067, Tungsten: 0.0043, Steel: 0.063, Aluminum: 0.67, Plastic: 1.65 }, note: "Low-energy 140 keV gamma emitter; thin Lead (0.0067 in HVL) or Tungsten syringe shields provide >99% attenuation." },
+    I123:  { energy: "159 keV γ", halfLife: "13.2 hrs", gamma: 1.60, isBeta: false, hvl: { Lead: 0.015, Tungsten: 0.009, Steel: 0.11, Aluminum: 0.75, Plastic: 1.81 }, note: "159 keV main gamma (with small high-energy emissions); easily shielded with standard Lead or Tungsten." },
+    Tl201: { energy: "68–80 keV X/γ", halfLife: "73.1 hrs", gamma: 0.45, isBeta: false, hvl: { Lead: 0.009, Tungsten: 0.006, Steel: 0.045, Aluminum: 0.47, Plastic: 1.38 }, note: "Emits primarily 68–80 keV Hg characteristic X-rays; minimal Lead/Tungsten thickness stops almost all radiation." },
+    Lu177: { energy: "208 keV γ / β⁻", halfLife: "6.65 days", gamma: 0.28, isBeta: false, hvl: { Lead: 0.021, Tungsten: 0.013, Steel: 0.16, Aluminum: 0.87, Plastic: 2.05 }, note: "Therapeutic beta emitter with 208 keV & 113 keV gammas; low gamma constant but high therapy doses require thick L-blocks." },
+    I131:  { energy: "364 keV γ / β⁻", halfLife: "8.02 days", gamma: 2.20, isBeta: false, hvl: { Lead: 0.094, Tungsten: 0.059, Steel: 0.43, Aluminum: 1.18, Plastic: 2.56 }, note: "High-energy 364 keV gamma requires nearly 0.1 in of Lead per HVL—about 14× thicker than Tc-99m." },
+    F18:   { energy: "511 keV PET γ±", halfLife: "109.8 min", gamma: 5.70, isBeta: false, hvl: { Lead: 0.157, Tungsten: 0.098, Steel: 0.51, Aluminum: 1.34, Plastic: 2.83 }, note: "511 keV positron annihilation photons are highly penetrating; heavy Tungsten syringe shields and 2-in Lead L-blocks are standard." },
+    Ga68:  { energy: "511 keV PET γ±", halfLife: "67.7 min", gamma: 5.50, isBeta: false, hvl: { Lead: 0.165, Tungsten: 0.102, Steel: 0.53, Aluminum: 1.38, Plastic: 2.91 }, note: "511 keV annihilation photons plus high-energy 1077 keV emissions require heavy Tungsten or Lead shielding." },
+    Y90:   { energy: "2.28 MeV Pure β⁻", halfLife: "64.1 hrs", gamma: 0.0, isBeta: true, betaRangeIn: { Plastic: 0.36, Aluminum: 0.16, Steel: 0.06, Tungsten: 0.04, Lead: 0.04 }, bremGamma: { Plastic: 0.008, Aluminum: 0.015, Steel: 0.035, Tungsten: 0.10, Lead: 0.11 }, hvl: { Plastic: 2.20, Aluminum: 1.10, Steel: 0.45, Tungsten: 0.10, Lead: 0.15 }, note: "Pure high-energy beta emitter (max range ~22 in in air). High-Z shields (Lead/Tungsten) generate secondary Bremsstrahlung X-rays! Low-Z Plastic/Acrylic (~0.4 in) stops betas with minimal Bremsstrahlung." }
+  };
+  function setAttr(id, attr, val) { const el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
+  function updateSim() {
+    const iso = ISOTOPES[document.getElementById("isotopeSelect").value];
+    const mCi = parseFloat(document.getElementById("activitySlider").value);
+    const distIn = parseFloat(document.getElementById("distanceSlider").value);
+    const distCm = distIn * 2.54, distFt = distIn / 12;
+    const mat = document.getElementById("shieldMatSelect").value;
+    const thickIn = parseFloat(document.getElementById("shieldThickSlider").value);
+    const timeMin = parseFloat(document.getElementById("timeSlider").value);
+    const timeHr = timeMin / 60;
+    document.getElementById("isoEnergyBadge").textContent = iso.energy;
+    document.getElementById("halfLifeText").textContent = "T½: " + iso.halfLife;
+    document.getElementById("gammaText").textContent = iso.isBeta ? "Pure β⁻ (Bremsstrahlung with shield)" : "Γ: " + iso.gamma.toFixed(2) + " R·cm²/mCi·hr";
+    document.getElementById("activityVal").textContent = mCi.toFixed(1) + " mCi";
+    document.getElementById("distanceVal").textContent = distIn + " in (" + distFt.toFixed(2) + " ft)";
+    document.getElementById("timeVal").textContent = timeMin + " min (" + timeHr.toFixed(3) + " hr)";
+    const hvlIn = iso.hvl[mat], numHvls = thickIn / hvlIn;
+    document.getElementById("hvlVal").textContent = (iso.isBeta ? "Brems HVL: " : "HVL: ") + hvlIn + " in";
+    document.getElementById("shieldThickVal").textContent = thickIn.toFixed(2) + " in (" + numHvls.toFixed(1) + " HVLs)";
+    let unshieldedRate = 0, protectedRate = 0;
+    if (!iso.isBeta) {
+      unshieldedRate = (iso.gamma * 1000 * mCi) / (distCm * distCm);
+      protectedRate = unshieldedRate * Math.pow(0.5, numHvls);
+    } else {
+      const betaFactor = distIn <= 22 ? Math.max(0, 1 - distIn / 22) : 0;
+      unshieldedRate = ((80 * 1000 * mCi) / (distCm * distCm)) * betaFactor;
+      if (thickIn === 0) { protectedRate = unshieldedRate; }
+      else {
+        const stopThick = iso.betaRangeIn[mat];
+        const remBeta = thickIn >= stopThick ? 0 : Math.pow(1 - thickIn / stopThick, 2);
+        const buildUp = Math.min(1, thickIn / stopThick);
+        const bremRate = ((iso.bremGamma[mat] * 1000 * mCi) / (distCm * distCm)) * buildUp * Math.pow(0.5, thickIn / hvlIn);
+        protectedRate = unshieldedRate * remBeta + bremRate;
+      }
+    }
+    const totalDose = protectedRate * timeHr;
+    const redFactor = protectedRate > 0 ? unshieldedRate / protectedRate : Infinity;
+    const redPct = unshieldedRate > 0 ? Math.max(0, (1 - protectedRate / unshieldedRate) * 100) : 0;
+    const fmt = (r) => r >= 1000 ? (r / 1000).toFixed(2) + " R/hr" : r.toFixed(2) + " mR/hr";
+    const rateEl = document.getElementById("doseRateOut");
+    rateEl.textContent = fmt(protectedRate);
+    rateEl.style.color = protectedRate > 100 ? "var(--danger)" : protectedRate > 10 ? "var(--warn)" : "var(--safe)";
+    document.getElementById("unshieldedComp").textContent = "Unshielded at " + distIn + " in: " + fmt(unshieldedRate);
+    document.getElementById("totalDoseOut").textContent = totalDose >= 1000 ? (totalDose / 1000).toFixed(2) + " R" : totalDose.toFixed(2) + " mR";
+    document.getElementById("timeSummary").textContent = "Over " + timeMin + " min (" + timeHr.toFixed(3) + " hr)";
+    document.getElementById("reductionOut").textContent = redFactor > 9999 ? ">10,000×" : redFactor.toFixed(1) + "×";
+    document.getElementById("reductionPct").textContent = redPct.toFixed(1) + "% reduced vs. unshielded";
+    const noteBox = document.getElementById("physicsNote");
+    noteBox.textContent = iso.note;
+    noteBox.className = (iso.isBeta && thickIn > 0 && (mat === "Lead" || mat === "Tungsten")) ? "alert-box" : "alert-box info";
+    document.getElementById("formulaBreakdown").textContent = iso.isBeta
+      ? "Y-90: Beta Range (" + mat + ") = " + iso.betaRangeIn[mat] + " in | Brems Γ = " + iso.bremGamma[mat] + " | d = " + distIn + " in"
+      : "Rate = (" + iso.gamma + " × 1000 × " + mCi + ") / (" + distCm.toFixed(1) + " cm)² × (0.5)^(" + numHvls.toFixed(2) + ")";
+
+    document.getElementById("clinicalGuidance").textContent =
+      protectedRate > 100
+        ? "HIGH EXPOSURE RATE: Increase distance immediately, use remote tongs, or add appropriate shielding."
+        : protectedRate > 5
+        ? "MODERATE RATE: Minimize handling time and verify syringe/vial shield placement."
+        : "LOW / ALARA-OPTIMIZED: Exposure rate is well-controlled for routine handling.";
+
+    const detX = 230 + ((distIn - 3) / (120 - 3)) * 410;
+    setAttr("detBody", "x", detX - 16);
+    setAttr("detScreen", "x", detX - 10);
+    setAttr("detLed", "cx", detX);
+    setAttr("detLabel", "x", detX);
+    setAttr("distLine", "x2", detX);
+
+    const distLabel = document.getElementById("distLabelSvg");
+    if (distLabel) {
+      distLabel.setAttribute("x", (80 + detX) / 2);
+      distLabel.textContent = distIn + " in (" + distFt.toFixed(2) + " ft)";
+    }
+
+    const shieldW = thickIn === 0 ? 2 : Math.min(44, 6 + thickIn * 20);
+    setAttr("shieldRect", "width", shieldW);
+    setAttr("shieldRect", "x", 165 - shieldW / 2);
+
+    const colors = { Lead: "#475569", Tungsten: "#334155", Steel: "#64748b", Aluminum: "#94a3b8", Plastic: "#38bdf8" };
+    setAttr("shieldRect", "fill", thickIn === 0 ? "rgba(148,163,184,0.2)" : colors[mat]);
+    setAttr("shieldRect", "fill-opacity", mat === "Plastic" && thickIn > 0 ? "0.55" : "1.0");
+
+    const shieldLabel = document.getElementById("shieldLabelSvg");
+    if (shieldLabel) {
+      shieldLabel.textContent = thickIn === 0 ? "No Shield" : thickIn.toFixed(2) + '" ' + mat;
+    }
+
+    const sLeft = 165 - shieldW / 2;
+    const sRight = 165 + shieldW / 2;
+    setAttr("beamPre", "points", "80,115 " + sLeft + ",85 " + sLeft + ",145");
+    setAttr("beamPost", "points", sRight + ",85 " + detX + ",60 " + detX + ",170 " + sRight + ",145");
+
+    const transRatio = unshieldedRate > 0 ? Math.min(1, protectedRate / unshieldedRate) : 0.1;
+    const postOpacity = thickIn === 0 ? 0.32 : Math.max(0.03, transRatio * 0.32);
+    setAttr("beamPost", "fill", "rgba(245, 158, 11, " + postOpacity.toFixed(3) + ")");
+  }
+
+  function applyPreset(type) {
+    const presets = {
+      unshielded: ["Tc99m", 30, 6, "Lead", 0, 5],
+      tcSyringe:  ["Tc99m", 30, 6, "Tungsten", 0.08, 5],
+      petLblock:  ["F18", 15, 18, "Lead", 1.50, 4],
+      y90Plastic: ["Y90", 50, 12, "Plastic", 0.50, 5],
+      y90Lead:    ["Y90", 50, 12, "Lead", 0.50, 5]
+    };
+    const p = presets[type];
+    if (!p) return;
+    document.getElementById("isotopeSelect").value = p[0];
+    document.getElementById("activitySlider").value = p[1];
+    document.getElementById("distanceSlider").value = p[2];
+    document.getElementById("shieldMatSelect").value = p[3];
+    document.getElementById("shieldThickSlider").value = p[4];
+    document.getElementById("timeSlider").value = p[5];
+    updateSim();
+  }
+
+  window.addEventListener("DOMContentLoaded", updateSim);
+  updateSim();
+</script>
+</body>
+</html>
