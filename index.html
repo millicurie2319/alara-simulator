@@ -60,14 +60,12 @@
     }
     .btn-preset:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* Visual Bench Stage */
     .stage-box {
       background: var(--panel-alt); border: 1px solid var(--border); border-radius: 10px;
       padding: 16px; margin-bottom: 18px; position: relative; overflow: hidden;
     }
     svg#benchSvg { width: 100%; height: 220px; display: block; }
 
-    /* Metrics */
     .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
     @media (max-width: 600px) { .metrics { grid-template-columns: 1fr; } }
     .metric {
@@ -113,7 +111,7 @@
           <label for="isotopeSelect">Radionuclide</label>
           <span class="val" id="isoEnergyBadge">140 keV γ</span>
         </div>
-        <select id="isotopeSelect">
+        <select id="isotopeSelect" onchange="updateSim()">
           <option value="Tc99m">Tc-99m (Technetium-99m — 140 keV γ)</option>
           <option value="I123">I-123 (Iodine-123 — 159 keV γ)</option>
           <option value="Tl201">Tl-201 (Thallium-201 — 68–80 keV X/γ)</option>
@@ -134,7 +132,7 @@
           <label for="activitySlider">Source Activity</label>
           <span class="val" id="activityVal">25.0 mCi</span>
         </div>
-        <input type="range" id="activitySlider" min="1" max="200" step="1" value="25" />
+        <input type="range" id="activitySlider" min="1" max="200" step="1" value="25" oninput="updateSim()" onchange="updateSim()" />
         <div class="sub-readout"><span>1 mCi</span><span>100 mCi</span><span>200 mCi</span></div>
       </div>
 
@@ -143,7 +141,7 @@
           <label for="distanceSlider">Distance (Source to Detector)</label>
           <span class="val" id="distanceVal">12 in (1.00 ft)</span>
         </div>
-        <input type="range" id="distanceSlider" min="3" max="120" step="1" value="12" />
+        <input type="range" id="distanceSlider" min="3" max="120" step="1" value="12" oninput="updateSim()" onchange="updateSim()" />
         <div class="sub-readout"><span>3 in (0.25 ft)</span><span>60 in (5 ft)</span><span>120 in (10 ft)</span></div>
       </div>
 
@@ -152,7 +150,7 @@
           <label for="shieldMatSelect">Shielding Material</label>
           <span class="val" id="hvlVal">HVL: 0.0067 in</span>
         </div>
-        <select id="shieldMatSelect">
+        <select id="shieldMatSelect" onchange="updateSim()">
           <option value="Lead">Lead (Pb — High Z = 82)</option>
           <option value="Tungsten">Tungsten (W — High Z = 74, Dense)</option>
           <option value="Steel">Steel / Iron (Fe — Medium Z = 26)</option>
@@ -166,7 +164,7 @@
           <label for="shieldThickSlider">Shield Thickness</label>
           <span class="val" id="shieldThickVal">0.00 in (0.0 HVLs)</span>
         </div>
-        <input type="range" id="shieldThickSlider" min="0" max="2.0" step="0.02" value="0.00" />
+        <input type="range" id="shieldThickSlider" min="0" max="2.0" step="0.02" value="0.00" oninput="updateSim()" onchange="updateSim()" />
         <div class="sub-readout"><span>0.00 in (Unshielded)</span><span>1.00 in</span><span>2.00 in</span></div>
       </div>
 
@@ -175,7 +173,7 @@
           <label for="timeSlider">Exposure Duration</label>
           <span class="val" id="timeVal">5 min (0.083 hr)</span>
         </div>
-        <input type="range" id="timeSlider" min="1" max="60" step="1" value="5" />
+        <input type="range" id="timeSlider" min="1" max="60" step="1" value="5" oninput="updateSim()" onchange="updateSim()" />
         <div class="sub-readout"><span>1 min</span><span>30 min</span><span>60 min</span></div>
       </div>
 
@@ -200,11 +198,8 @@
           <!-- Bench Surface -->
           <rect x="20" y="175" width="660" height="10" rx="4" fill="#334155" />
           <!-- Distance Ruler Line -->
-          <line id="distLine" x1="80" y1="198" x2="320" y2="198" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,3" />
-          <text id="distLabelSvg" x="200" y="214" fill="#38bdf8" font-size="12" text-anchor="middle" font-family="monospace">12 in (1.00 ft)</text>
+          <line id="distLine" x1="80" y1="198" x2="261" y2="198" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,3" />
+          <text id="distLabelSvg" x="170" y="214" fill="#38bdf8" font-size="12" text-anchor="middle" font-family="monospace">12 in (1.00 ft)</text>
 
           <!-- Unattenuated Beam (Source to Shield) -->
-          <polygon id="beamPre" points="80,115 165,85 165,145" fill="rgba(245, 158, 11, 0.35)" />
-          <!-- Attenuated Beam (Shield to Detector) -->
-          <polygon id="beamPost" points="165,85 320,60 320,170 165,145" fill="rgba(245, 158, 11, 0.25)" />
-
+          <polygon id="beamPre" points="80,115 164,85 164,145" fill="rgba(245, 158, 11, 0.35)" />
